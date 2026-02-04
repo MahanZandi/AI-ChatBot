@@ -1,6 +1,8 @@
 'use client';
 
 import { useState, useEffect, useRef } from 'react';
+import { useLanguageStore } from '@/features/i18n/store/useLanguageStore';
+import { translations } from '@/features/i18n/translations';
 
 interface Model {
   name: string;
@@ -18,6 +20,8 @@ export default function CompactModelSelector({ selectedModel, onModelChange }: C
   const [isOpen, setIsOpen] = useState(false);
   const [search, setSearch] = useState('');
   const dropdownRef = useRef<HTMLDivElement>(null);
+  const { language } = useLanguageStore();
+  const t = translations[language];
 
   useEffect(() => {
     fetch('/api/models')
@@ -62,11 +66,11 @@ export default function CompactModelSelector({ selectedModel, onModelChange }: C
       </button>
 
       {isOpen && (
-        <div className="absolute bottom-full mb-2 right-0 w-80 bg-[#080813] border border-white/10 rounded-3xl shadow-xl backdrop-blur z-50">
+        <div className={`${language === "en" ? 'right-0' : 'left-0'} absolute z-50 bottom-full mb-2 w-80 bg-[#080813] border border-white/10 rounded-3xl shadow-xl backdrop-blur`}>
           <div className="p-3 border-b border-white/10">
             <input
               type="text"
-              placeholder="search a model"
+              placeholder={t.searchModel}
               value={search}
               onChange={(e) => setSearch(e.target.value)}
               className="w-full px-3 py-2 bg-midnight-800/50 border border-white/10 rounded-xl text-white placeholder-white/50 text-sm focus:outline-none focus:border-midnight-400"

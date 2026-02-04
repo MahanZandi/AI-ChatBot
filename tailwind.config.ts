@@ -6,7 +6,8 @@ const config: Config = {
     extend: {
       fontFamily: {
         display: ["'Space Grotesk'", "ui-sans-serif", "system-ui"],
-        body: ["'Plus Jakarta Sans'", "ui-sans-serif", "system-ui"]
+        body: ["'Plus Jakarta Sans'", "ui-sans-serif", "system-ui"],
+        persian: ["IRANYekanX", "ui-sans-serif", "system-ui"]
       },
       colors: {
         midnight: {

@@ -1,6 +1,7 @@
 import ReactMarkdown from 'react-markdown';
 import type { ChatMessage as ChatMessageType } from "@/features/chat/types/chat";
 import CodeBlock from './CodeBlock';
+import { useLanguageStore } from '@/features/i18n/store/useLanguageStore';
 
 const roleStyles: Record<ChatMessageType["role"], string> = {
   system:
@@ -12,14 +13,15 @@ const roleStyles: Record<ChatMessageType["role"], string> = {
 export default function ChatMessage({ message }: { message: ChatMessageType }) {
   const isUser = message.role === "user";
 
+  const { language } = useLanguageStore();
+
   return (
     <div
       className={`flex w-full ${isUser ? "justify-end" : "justify-start"}`}
     >
       <div
-        className={`max-w-[80%] rounded-2xl px-4 py-3 text-sm leading-relaxed sm:text-base ${
-          roleStyles[message.role]
-        } ${isUser ? "rounded-br-md" : "rounded-bl-md"}`}
+        className={`max-w-[80%] rounded-2xl px-4 py-3 text-sm leading-relaxed sm:text-base ${roleStyles[message.role]
+          } ${isUser ? `${language === 'en' ? "rounded-br-md" : "rounded-bl-md"}` : `${language === 'en' ? "rounded-bl-md" : "rounded-br-md"}`}`}
       >
         {isUser ? (
           <p className="whitespace-pre-wrap">{message.content}</p>
@@ -30,7 +32,7 @@ export default function ChatMessage({ message }: { message: ChatMessageType }) {
                 const match = /language-(\w+)/.exec(className || '');
                 const language = match ? match[1] : '';
                 const inline = !className;
-                
+
                 return !inline ? (
                   <CodeBlock language={language}>
                     {String(children).replace(/\n$/, '')}

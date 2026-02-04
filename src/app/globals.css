@@ -22,6 +22,10 @@ body {
   color: #f8fafc;
 }
 
+body[dir="rtl"] {
+  font-family: IRANYekanX, "Plus Jakarta Sans", ui-sans-serif, system-ui;
+}
+
 .scrollbar-hidden::-webkit-scrollbar {
   display: none;
 }

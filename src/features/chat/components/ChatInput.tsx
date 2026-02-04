@@ -1,10 +1,14 @@
 "use client";
 
 import { useChatStore } from "@/features/chat/store/useChatStore";
+import { useLanguageStore } from "@/features/i18n/store/useLanguageStore";
+import { translations } from "@/features/i18n/translations";
 import CompactModelSelector from "./CompactModelSelector";
 
 export default function ChatInput() {
   const { input, setInput, sendMessage, isTyping, selectedModel, setSelectedModel } = useChatStore();
+  const { language } = useLanguageStore();
+  const t = translations[language];
 
   return (
     <form
@@ -17,7 +21,7 @@ export default function ChatInput() {
       <textarea
         rows={1}
         className="flex-1 resize-none bg-transparent text-sm text-white outline-none placeholder:text-slate-400"
-        placeholder="Ask me anything..."
+        placeholder={t.inputPlaceholder}
         value={input}
         onChange={(event) => setInput(event.target.value)}
         disabled={isTyping}
@@ -32,7 +36,7 @@ export default function ChatInput() {
           className="rounded-full bg-midnight-500 px-4 py-2 text-sm font-semibold text-white transition hover:bg-midnight-400 disabled:cursor-not-allowed disabled:opacity-60"
           disabled={isTyping || !input.trim()}
         >
-          Send
+          {t.send}
         </button>
       </div>
     </form>
