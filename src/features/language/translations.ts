@@ -2,7 +2,7 @@ export const translations = {
   en: {
     title: "MVP Chatbot",
     subtitle: "Launch your assistant fast",
-    description: "This is a clean MVP chat interface wired to a local OpenAI-compatible backend. Messages stay on your machine.",
+    description: "AI chatbot powered by Ollama API running locally on your system. New to Ollama? Visit ollama.com to get started.",
     reset: "Reset",
     inputPlaceholder: "Ask me anything...",
     send: "Send",
@@ -32,7 +32,7 @@ export const translations = {
   fa: {
     title: "چتبات MVP",
     subtitle: "دستیار هوشمند شما",
-    description: "یک رابط چت ساده که به سرور محلی OpenAI متصل است. پیامها روی دستگاه شما باقی میمانند.",
+    description: "هوش مصنوعی که از API ollama که روی سیستم شما نصب شده استفاده میکنه. برای آموزش نصب به ollama.com مراجعه کنید.",
     reset: "پاک کردن",
     inputPlaceholder: "هر سوالی دارید بپرسید...",
     send: "ارسال",

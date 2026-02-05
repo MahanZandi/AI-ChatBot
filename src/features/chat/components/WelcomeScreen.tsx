@@ -1,7 +1,7 @@
 'use client';
 
-import { useLanguageStore } from "@/features/i18n/store/useLanguageStore";
-import { translations } from "@/features/i18n/translations";
+import { useLanguageStore } from "@/features/language/store/useLanguageStore";
+import { translations } from "@/features/language/translations";
 
 const icons = [
   <svg key="code" className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -23,9 +23,9 @@ export default function WelcomeScreen() {
   const t = translations[language];
   
   return (
-    <div className="flex flex-1 items-center justify-center p-8">
+    <div className="flex flex-1 items-center justify-center md:p-8">
       <div className="max-w-2xl w-full">
-        <div className="text-center mb-8">
+        <div className="text-center mb-6 md:mb-8">
           <h2 className="text-2xl font-semibold text-white mb-2">
             {t.welcomeTitle}
           </h2>
@@ -38,7 +38,7 @@ export default function WelcomeScreen() {
           {t.features.map((feature, index) => (
             <div
               key={index}
-              className="group p-4 rounded-2xl border border-white/10 bg-white/5 backdrop-blur hover:bg-white/10 transition-all cursor-pointer"
+              className="group p-3 md:p-4 rounded-2xl border border-white/10 bg-white/5 backdrop-blur hover:bg-white/10 transition-all cursor-pointer"
             >
               <div className="flex items-start gap-3">
                 <div className="flex-shrink-0 p-2 rounded-lg bg-midnight-500/20 text-midnight-300 group-hover:bg-midnight-500/30 transition-colors">

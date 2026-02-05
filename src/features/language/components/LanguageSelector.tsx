@@ -1,6 +1,6 @@
 "use client";
 
-import { useLanguageStore } from "@/features/i18n/store/useLanguageStore";
+import { useLanguageStore } from "@/features/language/store/useLanguageStore";
 
 export default function LanguageSelector() {
   const { language, setLanguage } = useLanguageStore();

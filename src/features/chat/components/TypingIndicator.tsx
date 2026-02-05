@@ -1,7 +1,7 @@
 "use client";
 
-import { useLanguageStore } from "@/features/i18n/store/useLanguageStore";
-import { translations } from "@/features/i18n/translations";
+import { useLanguageStore } from "@/features/language/store/useLanguageStore";
+import { translations } from "@/features/language/translations";
 
 export default function TypingIndicator() {
   const { language } = useLanguageStore();

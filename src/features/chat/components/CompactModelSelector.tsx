@@ -1,8 +1,8 @@
 'use client';
 
 import { useState, useEffect, useRef } from 'react';
-import { useLanguageStore } from '@/features/i18n/store/useLanguageStore';
-import { translations } from '@/features/i18n/translations';
+import { useLanguageStore } from '@/features/language/store/useLanguageStore';
+import { translations } from '@/features/language/translations';
 
 interface Model {
   name: string;
@@ -59,14 +59,14 @@ export default function CompactModelSelector({ selectedModel, onModelChange }: C
         <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
         </svg>
-        <span className="text-sm max-w-32 truncate">{selectedModel}</span>
+        <span className="text-sm max-w-32 truncate md:block hidden">{selectedModel}</span>
         <svg className={`w-4 h-4 transition-transform ${isOpen ? 'rotate-180' : ''}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
         </svg>
       </button>
 
       {isOpen && (
-        <div className={`${language === "en" ? 'right-0' : 'left-0'} absolute z-50 bottom-full mb-2 w-80 bg-[#080813] border border-white/10 rounded-3xl shadow-xl backdrop-blur`}>
+        <div className={`${language === "en" ? 'md:left-0' : 'md:right-0'} absolute z-50 bottom-full mb-2 w-80 left-1/2 -translate-x-1/2 md:left-auto md:translate-x-0 bg-[#080813] border border-white/10 rounded-3xl shadow-xl backdrop-blur`}>
           <div className="p-3 border-b border-white/10">
             <input
               type="text"

@@ -2,6 +2,7 @@
 
 import { create } from "zustand";
 import type { ChatMessage } from "@/features/chat/types/chat";
+import { storage } from "@/core/storage/localStorage";
 
 const initialMessages: ChatMessage[] = [
   {
@@ -30,14 +31,20 @@ const createId = () =>
     : `msg-${Date.now()}-${Math.random().toString(16).slice(2)}`;
 
 export const useChatStore = create<ChatState>((set, get) => ({
-  messages: initialMessages,
+  messages: storage.get<ChatMessage[]>('chat-messages') || initialMessages,
   input: "",
   isTyping: false,
   error: null,
-  selectedModel: "qwen2.5:0.5b",
+  selectedModel: storage.get<string>('chat-model') || "qwen2.5:0.5b",
   setInput: (value) => set({ input: value }),
-  setSelectedModel: (model) => set({ selectedModel: model }),
-  clearChat: () => set({ messages: initialMessages, error: null }),
+  setSelectedModel: (model) => {
+    storage.set('chat-model', model);
+    set({ selectedModel: model });
+  },
+  clearChat: () => {
+    storage.set('chat-messages', initialMessages);
+    set({ messages: initialMessages, error: null });
+  },
   sendMessage: async () => {
     const { input, messages, isTyping, selectedModel } = get();
     if (!input.trim() || isTyping) {
@@ -51,8 +58,11 @@ export const useChatStore = create<ChatState>((set, get) => ({
       createdAt: Date.now()
     };
 
+    const updatedMessages = [...messages, userMessage];
+    storage.set('chat-messages', updatedMessages);
+
     set({
-      messages: [...messages, userMessage],
+      messages: updatedMessages,
       input: "",
       isTyping: true,
       error: null
@@ -63,7 +73,7 @@ export const useChatStore = create<ChatState>((set, get) => ({
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          messages: [...messages, userMessage].map((message) => ({
+          messages: updatedMessages.map((message) => ({
             role: message.role,
             content: message.content
           })),
@@ -84,8 +94,11 @@ export const useChatStore = create<ChatState>((set, get) => ({
         createdAt: Date.now()
       };
 
+      const finalMessages = [...get().messages, assistantMessage];
+      storage.set('chat-messages', finalMessages);
+
       set({
-        messages: [...get().messages, assistantMessage],
+        messages: finalMessages,
         isTyping: false
       });
     } catch (error) {
