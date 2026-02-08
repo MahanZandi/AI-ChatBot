@@ -16,10 +16,25 @@ export default function ChatPage() {
   const t = translations[language];
   const [showInfo, setShowInfo] = useState(false);
   const [showClearModal, setShowClearModal] = useState(false);
+  const [animatingMessageId, setAnimatingMessageId] = useState<string | null>(null);
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
 
   useEffect(() => {
     document.body.dir = language === "fa" ? "rtl" : "ltr";
   }, [language]);
+
+  useEffect(() => {
+    if (!mounted) return;
+    const userMessages = messages.filter((message) => message.role !== "system");
+    const lastMessage = userMessages[userMessages.length - 1];
+    if (lastMessage?.role === 'assistant' && isTyping === false) {
+      setAnimatingMessageId(lastMessage.id);
+    }
+  }, [messages, isTyping, mounted]);
 
   const handleClearChat = () => {
     clearChat();
@@ -28,6 +43,10 @@ export default function ChatPage() {
 
   const userMessages = messages.filter((message) => message.role !== "system");
   const hasMessages = userMessages.length > 0;
+
+  if (!mounted) {
+    return null;
+  }
 
   return (
     <div className={`relative min-h-screen ${language === "fa" ? "font-persian" : ""}`} dir={language === "fa" ? "rtl" : "ltr"}>
@@ -207,7 +226,7 @@ export default function ChatPage() {
                 <ChatMessage
                   key={message.id}
                   message={message}
-                  isLatest={index === userMessages.length - 1 && message.role === 'assistant'}
+                  isLatest={message.id === animatingMessageId && index === userMessages.length - 1 && message.role === 'assistant'}
                 />
               ))
             ) : (

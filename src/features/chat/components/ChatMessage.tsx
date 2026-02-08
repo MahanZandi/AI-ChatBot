@@ -3,7 +3,7 @@ import type { ChatMessage as ChatMessageType } from "@/features/chat/types/chat"
 import CodeBlock from './CodeBlock';
 import { useLanguageStore } from '@/features/language/store/useLanguageStore';
 import { useTypingAnimation } from '../hooks/useTypingAnimation';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 
 const roleStyles: Record<ChatMessageType["role"], string> = {
   system:
@@ -15,11 +15,18 @@ const roleStyles: Record<ChatMessageType["role"], string> = {
 export default function ChatMessage({ message, isLatest }: { message: ChatMessageType; isLatest?: boolean }) {
   const isUser = message.role === "user";
   const { language } = useLanguageStore();
-  const shouldAnimate = !isUser && isLatest;
-  const { displayedText } = useTypingAnimation(shouldAnimate ? message.content : '', 20);
-  const content = shouldAnimate ? displayedText : message.content;
   const [showCopy, setShowCopy] = useState(false);
   const [copied, setCopied] = useState(false);
+  const [mounted, setMounted] = useState(false);
+  const [shouldAnimate, setShouldAnimate] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+    setShouldAnimate(!isUser && !!isLatest);
+  }, []);
+
+  const { displayedText } = useTypingAnimation(shouldAnimate ? message.content : '', 20);
+  const content = shouldAnimate ? displayedText : message.content;
 
   const handleCopy = async () => {
     await navigator.clipboard.writeText(message.content);
@@ -33,12 +40,12 @@ export default function ChatMessage({ message, isLatest }: { message: ChatMessag
     >
       <div
         className={`relative group max-w-[90%] md:max-w-[80%] rounded-2xl p-3 md:px-4 md:py-3 text-sm leading-relaxed sm:text-base ${roleStyles[message.role]
-          } ${isUser ? `${language === 'en' ? "rounded-br-md" : "rounded-bl-md"}` : `${language === 'en' ? "rounded-bl-md" : "rounded-br-md"}`}`}
+          } ${mounted ? (isUser ? `${language === 'en' ? "rounded-br-md" : "rounded-bl-md"}` : `${language === 'en' ? "rounded-bl-md" : "rounded-br-md"}`) : ''}`}
         onMouseEnter={() => setShowCopy(true)}
         onMouseLeave={() => setShowCopy(false)}
         onClick={() => setShowCopy(!showCopy)}
       >
-        {(showCopy || copied) && (
+        {mounted && (showCopy || copied) && (
           <button
             onClick={handleCopy}
             className="absolute top-2 right-2 p-1.5 rounded-lg bg-black/50 hover:bg-black/70 transition-colors"
