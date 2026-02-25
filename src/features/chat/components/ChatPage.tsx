@@ -8,6 +8,7 @@ import { useChatStore } from "@/features/chat/store/useChatStore";
 import LanguageSelector from "@/features/language/components/LanguageSelector";
 import { useLanguageStore } from "@/features/language/store/useLanguageStore";
 import { translations } from "@/features/language/translations";
+import { initTelegramWebApp } from "@/core/telegram/telegramWebApp";
 import { useEffect, useState } from "react";
 
 export default function ChatPage() {
@@ -21,6 +22,7 @@ export default function ChatPage() {
 
   useEffect(() => {
     setMounted(true);
+    initTelegramWebApp();
   }, []);
 
   useEffect(() => {
