@@ -10,6 +10,7 @@ All project documentation is located here.
 
 ### Development
 - **[LOCAL_DEVELOPMENT.md](./LOCAL_DEVELOPMENT.md)** - راهنمای اجرای لوکال با ngrok
+- **[NETWORK_ACCESS.md](./NETWORK_ACCESS.md)** - 🌐 دسترسی شبکه محلی (WiFi/Hotspot)
 - **[TELEGRAM_SETUP.md](./TELEGRAM_SETUP.md)** - راهنمای deploy و تنظیمات تلگرام
 
 ### Technical
